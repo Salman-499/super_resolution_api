@@ -1,4 +1,4 @@
-# 🛰️ Super Resolution API
+# Super Resolution API
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/) [![FastAPI](https://img.shields.io/badge/FastAPI-API-green?logo=fastapi)](https://fastapi.tiangolo.com/) [![HRNet](https://img.shields.io/badge/HRNet-superres-purple?logo=github)](https://github.com/HRNet) [![Docker](https://img.shields.io/badge/Docker-ready-blue?logo=docker)](https://www.docker.com/)
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 🚀 Key Features
+## Key Features
 - **Multi-frame super resolution** for maximum detail recovery
 - **HRNet** backbone for state-of-the-art image enhancement
 - **Single-image fallback**: Enhance even with one input
@@ -19,7 +19,7 @@
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 - **Model**: HRNet (PyTorch, multi-frame super resolution)
 - **Backend**: FastAPI (Python 3.9+)
 - **Deployment**: Docker Compose, Nginx (optional)
@@ -30,7 +30,7 @@
 
 ---
 
-## 📦 API Endpoints
+## API Endpoints
 - `GET /` — API info
 - `GET /health` — Health check
 - `POST /super_resolve` — Multi-frame super resolution (2+ images)
@@ -38,7 +38,7 @@
 
 ---
 
-## 💡 Example Use Cases
+## Example Use Cases
 - **Satellite imagery**: Enhance resolution for mapping, analysis, or visualization
 - **Remote sensing**: Improve scientific data quality
 - **Aerial surveys**: Sharpen drone or aircraft images
@@ -46,7 +46,7 @@
 
 ---
 
-## 🏃‍♂️ Quickstart
+## Quickstart
 
 ### Prerequisites
 - Docker & Docker Compose
@@ -66,7 +66,7 @@ docker-compose up --build
 
 ---
 
-## 📁 File Structure
+## File Structure
 ```
 super_resolution_api/
 ├── super_resolution_api.py
@@ -82,11 +82,9 @@ super_resolution_api/
 
 ---
 
-## 📈 Example Request
+## Example Request
 ```bash
 curl -X POST "http://localhost:8002/super_resolve_single" -F "file=@test.jpg"
 ```
 
 ---
-
-> _Sharper images. Smarter science. Built for the future of geospatial AI._ 
