@@ -1,0 +1,38 @@
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY requirements.super-resolution.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.super-resolution.txt
+
+# Copy application files
+COPY super_resolution_api.py .
+COPY HRNet.py .
+COPY utils.py .
+
+# Create necessary directories
+RUN mkdir -p forest-fire/server
+
+# Expose port
+EXPOSE 8002
+
+# Set environment variables
+ENV PYTHONPATH=/app
+ENV MODEL_PATH=/app/models/model_weights.pth
+
+# Run the application
+CMD ["python", "super_resolution_api.py"] 

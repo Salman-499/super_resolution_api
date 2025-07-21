@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  super-resolution:
+    build:
+      context: .
+      dockerfile: Dockerfile.super-resolution
+    ports:
+      - "8002:8002"
+    volumes:
+      - .:/app
+    environment:
+      - MODEL_PATH=/app/models/model_weights.pth
+    restart: unless-stopped
+    networks:
+      - api-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - super-resolution
+    restart: unless-stopped
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge 

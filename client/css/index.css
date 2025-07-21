@@ -1,0 +1,201 @@
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+html,
+body,
+#map,
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.sat-img {
+  box-shadow: 0 0 10px black;
+}
+
+.main {
+  background-color:snow;
+}
+
+.main-nav {
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-nav button:hover {
+  background-color: steelblue;
+  color: white;
+}
+
+#gear {
+  display: none;
+  float: right;
+}
+
+.DLL-icon {
+  height: 2.5rem;
+  padding-left: 4rem;
+  background-color: white;
+}
+
+a:has(> img.DLL-icon) {
+  background-color: white;
+}
+
+.user-icon {
+  height: 2.5rem;
+  padding-right: 0.5rem;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+#map {
+  height: calc(70vh);
+  width: 100%;
+}
+
+.images-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+
+.img-zoom-lens {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 300px;
+  height: 300px;
+}
+
+#overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black url(../img/loading.gif) center center no-repeat;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  z-index: 200;
+}
+
+/*
+ * Sidebar
+ */
+
+ .sidebar {
+  height: calc(84vh);
+  background-color: white;
+  /* position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; */
+  /* Behind the navbar */
+  /* padding: 48px 0 0; */
+  /* Height of navbar */
+  /* box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+} *
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+/*
+ * Content
+ */
+
+[role="main"] {
+  padding-top: 48px;
+  /* Space for fixed navbar */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100%;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.25);
+  max-width: unset;
+}
+
+.navbar .form-control {
+  padding: 0.75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+/*
+ * Form
+ */
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+@media only screen and (max-width: 1036px) and (min-width: 991px) {
+  .sidebar-heading {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #gear {
+    display: block;
+    color: white;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  a.navbar-brand {
+    width: unset;
+  }
+}
