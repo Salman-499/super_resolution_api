@@ -1,90 +1,37 @@
-# Super Resolution API
+# Super-Resolution API
 
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/) [![FastAPI](https://img.shields.io/badge/FastAPI-API-green?logo=fastapi)](https://fastapi.tiangolo.com/) [![HRNet](https://img.shields.io/badge/HRNet-superres-purple?logo=github)](https://github.com/HRNet) [![Docker](https://img.shields.io/badge/Docker-ready-blue?logo=docker)](https://www.docker.com/)
+API and web front ends from my final year project at NUST, *Super-Resolution for Early Detection of Forest Health Decline* (TUKL Lab, supervised by Prof. Faisal Shafait; with Hanan Abid).
 
-## Overview
+The project used multi-image super-resolution to sharpen 10 m Sentinel-2 imagery of forests in Pakistan, using 1 m PRSS-1 imagery from SUPARCO as the high-resolution reference. We then looked at fire damage with vegetation indices (EVI, MSAVI2) and segmentation.
 
-**Super Resolution API** is a high-performance image enhancement system for satellite and aerial imagery. It leverages multi-frame super resolution using HRNet to reconstruct high-quality, high-detail images from multiple low-resolution inputs. Designed for geospatial, remote sensing, and scientific applications, the API supports both single-image and multi-frame enhancement workflows, and is fully containerized for easy deployment.
+## Model
 
----
+The model is **HighRes-net** ([Deudon et al., 2020](https://arxiv.org/abs/2002.06460)), which fuses several low-resolution images of the same scene into one sharper image. `HRNet.py` is the PyTorch implementation from the [original HighRes-net code](https://github.com/ElementAI/HighRes-net), where the model class is named `HRNet`. It is not the HRNet pose and segmentation network.
 
-## Key Features
-- **Multi-frame super resolution** for maximum detail recovery
-- **HRNet** backbone for state-of-the-art image enhancement
-- **Single-image fallback**: Enhance even with one input
-- **FastAPI** backend with async endpoints and auto-generated docs
-- **Dockerized** for seamless deployment
-- **Nginx reverse proxy** for production
-- **Flexible**: Supports batch processing and custom target sizes
+The API works on grayscale images. Each input is resized (64×64 by default) before the frames are fused. The model settings are at the top of `super_resolution_api.py`.
 
----
+## Endpoints
 
-## Architecture
-- **Model**: HRNet (PyTorch, multi-frame super resolution)
-- **Backend**: FastAPI (Python 3.9+)
-- **Deployment**: Docker Compose, Nginx (optional)
-- **Workflow**:
-  1. Upload 2+ low-res images (or single image)
-  2. Model fuses frames for super-res output
-  3. Return enhanced PNG image
+| Method | Path | Input | Output |
+|---|---|---|---|
+| GET | `/health` | | Whether the model is loaded |
+| POST | `/super_resolve` | 2 or more images of the same scene | Super-resolved PNG |
+| POST | `/super_resolve_single` | One image | Super-resolved PNG |
 
----
+## Front ends
 
-## API Endpoints
-- `GET /` — API info
-- `GET /health` — Health check
-- `POST /super_resolve` — Multi-frame super resolution (2+ images)
-- `POST /super_resolve_single` — Single image super resolution
+- `frontend/`: a Next.js page for uploading images and comparing them before and after.
+- `client/`: the static dashboard from the project's web portal. It shows burned area by forest division and Google Earth Engine map layers and index time series. `utils.py` has the Earth Engine helpers its back end used; the back-end server itself is not in this repo.
 
----
+## Running it
 
-## Example Use Cases
-- **Satellite imagery**: Enhance resolution for mapping, analysis, or visualization
-- **Remote sensing**: Improve scientific data quality
-- **Aerial surveys**: Sharpen drone or aircraft images
-- **Research**: Benchmarking, dataset creation
+Model weights are not included. Set `MODEL_PATH` to a trained HighRes-net checkpoint.
 
----
-
-## Quickstart
-
-### Prerequisites
-- Docker & Docker Compose
-- Model files in the `models/` directory
-
-### 1. Build & Run (API only)
 ```bash
-docker-compose up --build super-resolution
+docker-compose up --build super-resolution   # API on http://localhost:8002
+cd frontend && npm install && npm run dev    # Next.js front end
 ```
 
-### 2. Build & Run (API + nginx proxy)
-```bash
-docker-compose up --build
-```
-- API: http://localhost:8002/
-- Via nginx: http://localhost/super-resolution/
+## Credits
 
----
-
-## File Structure
-```
-super_resolution_api/
-├── super_resolution_api.py
-├── HRNet.py
-├── utils.py
-├── Dockerfile.super-resolution
-├── requirements.super-resolution.txt
-├── models/
-├── docker-compose.yml
-├── nginx.conf
-└── README.md
-```
-
----
-
-## Example Request
-```bash
-curl -X POST "http://localhost:8002/super_resolve_single" -F "file=@test.jpg"
-```
-
----
+HighRes-net: M. Deudon, A. Kalaitzis, I. Goytom, M. R. Arefin, Z. Lin, K. Sankaran, V. Michalski, S. E. Kahou, J. Cornebise and Y. Bengio, *HighRes-net: Recursive Fusion for Multi-Frame Super-Resolution of Satellite Imagery*, 2020.
